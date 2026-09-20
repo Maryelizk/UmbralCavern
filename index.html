@@ -362,7 +362,7 @@ const CONFIG = {
   eventDate:   "Saturday, 31 October",
   eventTime:   "half past seven — the cavern will not open before or after",
   eventPlace:  "1020 Mass Ave NE",
-  eventAttire: "requires some explaination",
+  eventAttire: "Requires some explaination",
   rsvpBy:      "20 October",
 
   // How long Dr. Vane has been out of contact. Used in both the afterword
@@ -380,7 +380,7 @@ const ASSISTANT_NOTES = [
   {
     head: "Not a speleologist",
     body: [
-      "Dr. {Name}",
+      "Dr. {name}",
       "Very well, I apologize for not having access to an up to date copy Who's Who here in the field.",
       "Dr. Vane is confident whatever your field of expertise is, it is relevant to the expedition.",
       ]
@@ -448,7 +448,7 @@ function viewMica() {
   render(`
     ${letterhead()}
     <div class="letter">
-      <p class="hint" style="margin-top:0">A piece of mica fell onto the worktable with a name already in it. Tell me whether it is yours.</p>
+      <p class="hint" style="margin-top:0">Please enter one of the names that appeared in the mica.</p>
       <div class="mica-line">
         <span class="to">The mica reads&nbsp;Dr.</span>
         <input class="blank" id="nameInput" type="text" autocomplete="name"
@@ -484,7 +484,7 @@ function viewBriefing() {
     <div class="letter">
       <p class="salutation">Dr. ${esc(state.name)},</p>
 
-      <p>Then the letter found you, which means the mica was right about you.
+      <p>Then the letter found you, which means the mica was right.
       I am ${esc(CONFIG.assistantName)}. I carry ${esc(CONFIG.researcherName)}'s correspondence
       up to the surface and I carry the replies back down. ${esc(CONFIG.researcherName)} does not come up.</p>
 
@@ -499,7 +499,7 @@ function viewBriefing() {
           <dt>Opens</dt><dd>${esc(CONFIG.eventDate)}, ${esc(CONFIG.eventTime)}</dd>
           <dt>Mouth</dt><dd>${esc(CONFIG.eventPlace)}</dd>
           <dt>Dress</dt><dd>${esc(CONFIG.eventAttire)}</dd>
-          <dt>Bring</dt><dd>the mica, and a light of your own</dd>
+          <dt>Bring</dt><dd>the mica</dd>
         </dl>
       </div>
 
