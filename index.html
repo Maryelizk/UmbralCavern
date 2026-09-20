@@ -418,7 +418,7 @@ const isComing  = () => state.answer !== "no";
 const headCount = () => state.answer === "yes" ? 2 : (state.answer === "solo" ? 1 : 0);
 
 const state = { name:"", answer:null, partner:"", note:"", denials:0, conceded:false,
-                listStatus:"not checked", attempts:0 };
+                listStatus:"not checked", attempts:0, prior:"" };
 
 /* What Bellweather says when a name isn't on the list. After the last of
    these the guest is let through anyway, and the row is flagged for you. */
@@ -432,15 +432,18 @@ const NOT_ON_LIST = [
    Any failure returns "not checked", which lets the guest through: a locked
    door on the night would be worse than an unverified row. */
 async function checkName(name) {
-  if (!CONFIG.formEndpoint) return "not checked";
+  if (!CONFIG.formEndpoint) return { status: "not checked", prior: "" };
   try {
     const res = await fetch(CONFIG.formEndpoint + "?check=" + encodeURIComponent(name));
     if (!res.ok) throw new Error("status " + res.status);
     const data = JSON.parse(await res.text());
-    return data.found ? "on list" : "not on list";
+    return {
+      status: data.found ? "on list" : "not on list",
+      prior: data.replied || ""     // "Yes", "No", or "" if they haven't written before
+    };
   } catch (e) {
     console.warn("Umbral: name check failed —", e);
-    return "not checked";
+    return { status: "not checked", prior: "" };
   }
 }
 
@@ -501,12 +504,14 @@ function viewMica() {
     go.textContent = "Reading the rock…";
     err.textContent = "";
 
-    state.listStatus = await checkName(v);
+    const check = await checkName(v);
+    state.listStatus = check.status;
+    state.prior = check.prior;
 
     go.disabled = false;
     go.textContent = "That is my name";
 
-    if (DEBUG) console.log("Umbral: name check —", state.listStatus);
+    if (DEBUG) console.log("Umbral: name check —", state.listStatus, "| prior reply:", state.prior || "none");
 
     if (state.listStatus === "not on list" && state.attempts < NOT_ON_LIST.length) {
       err.textContent = NOT_ON_LIST[state.attempts];
@@ -767,9 +772,7 @@ async function send() {
   };
 
   if (!CONFIG.formEndpoint) {
-    // Nothing is configured to receive replies yet. Stay on the page and show
-    // the confirmation, with a setup notice that disappears once formEndpoint
-    // is filled in.
+    // .
     viewSealed();
     return;
   }
@@ -832,7 +835,26 @@ function viewSealed() {
 
   const coming = isComing();
 
-  const body = coming ? `
+  // They already said yes once. Don't thank them twice — remind them instead.
+  const repeat = coming && state.prior === "Yes";
+
+  const particulars = `
+      <div class="particulars">
+        <dl>
+          <dt>Opens</dt><dd>${esc(CONFIG.eventDate)}, ${esc(CONFIG.eventTime)}</dd>
+          <dt>Mouth</dt><dd>${esc(CONFIG.eventPlace)}</dd>
+          <dt>Dress</dt><dd>${esc(CONFIG.eventAttire)}</dd>
+          <dt>Bring</dt><dd>the mica</dd>
+        </dl>
+      </div>`;
+
+  const body = repeat ? `
+      <p>Yes, ${esc(state.name)} — you already confirmed you'd be joining the expedition.
+      The details again are below.</p>
+
+      ${particulars}
+
+      <p>Nothing has changed at my end, except that it has been longer.</p>` : coming ? `
       <p>Thank you, I have you down for the expedition${state.answer === "yes" ? ", and your partner as well" : ""}.</p>
 
       <p>Since the professor sent up the mica fragments I've lost contact. 
@@ -870,9 +892,10 @@ function viewSealed() {
       <button id="copyreply">Copy this reply</button>
     </div>`}
 
+    ${coming ? "" : `
     <div class="actions">
-      <button class="btn-quiet" id="again">Send a different reply</button>
-    </div>
+      <button class="btn-quiet" id="again">Actually, I will come</button>
+    </div>`}
   `, "addendum");
 
   setFooter("");
@@ -892,7 +915,8 @@ function viewSealed() {
     }
   });
 
-  document.getElementById("again").addEventListener("click", () => {
+  const again = document.getElementById("again");
+  if (again) again.addEventListener("click", () => {
     state.answer = null; state.partner = ""; state.note = "";
     state.denials = 0; state.conceded = false;
     viewChoices();
