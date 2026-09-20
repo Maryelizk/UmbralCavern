@@ -370,14 +370,14 @@ const CONFIG = {
 
 const ASSISTANT_NOTES = [
   {
-    head: "Off the record",
+    head: "Not a speleologist",
     body: [
       "Very well, I apologize for not having access to an up to date copy Who's Who, American Men and Women of Science here in the field.",
-      "Dr. Vane is confident whatever your field of expertise is, it is relevant to the expedition",
+      "Dr. Vane is confident whatever your field of expertise is, it is relevant to the expedition.",
       ]
   },
   {
-    head: "Me again",
+    head: "Not a doctor",
     body: [
       "Well certainly even without a PhD you must have some relevant skills?",
       "Dr. Vane has not been very responsive when I inquired about what fields of study would qualify for the expedition.",
@@ -516,11 +516,19 @@ function viewBriefing() {
   document.getElementById("back").addEventListener("click", viewMica);
 }
 
+/* The objection button's wording, one per round. Keep this the same
+   length as ASSISTANT_NOTES — one label for each note. */
+const DENIAL_LABELS = [
+  "There has been a mistake. I am not a speleologist.",
+  "I don't have a PhD.",
+  "I have no experience relevant to spelunking at all!"
+];
+
 /* ---------- 3. the three options ---------- */
 function viewChoices() {
   const denialLabel = state.denials >= ASSISTANT_NOTES.length
     ? `All right, ${CONFIG.assistantName}. I'll bring what I've got.`
-    : "There has been a mistake. I am not a speleologist.";
+    : DENIAL_LABELS[state.denials] || DENIAL_LABELS[DENIAL_LABELS.length - 1];
 
   const denialItem = state.conceded ? "" : `
     <li>
@@ -564,6 +572,9 @@ function viewChoices() {
   });
 }
 
+/* Puts the guest's name wherever a note contains {name}. */
+const fill = s => String(s).replace(/\{name\}/g, state.name);
+
 /* ---------- 3b. the denial branch ---------- */
 function viewAssistantNote() {
   const note = ASSISTANT_NOTES[state.denials];
@@ -571,8 +582,8 @@ function viewAssistantNote() {
 
   render(`
     <div class="assistant-note">
-      <p class="note-head">${esc(note.head)}</p>
-      ${note.body.map(p => `<p>${esc(p)}</p>`).join("")}
+      <p class="note-head">${esc(fill(note.head))}</p>
+      ${note.body.map(p => `<p>${esc(fill(p))}</p>`).join("")}
       <div class="actions">
         <button class="btn" id="continue">Back to your reply</button>
       </div>
