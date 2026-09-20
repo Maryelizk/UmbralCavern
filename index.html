@@ -353,8 +353,8 @@ const CONFIG = {
   // --- The party ---
   eventDate:   "Saturday, 31 October",
   eventTime:   "half past seven — the cavern will not open before or after",
-  eventPlace:  "[YOUR ADDRESS HERE]",
-  eventAttire: "field dress. Whatever you don't mind losing.",
+  eventPlace:  "1020 Mass Ave NE",
+  //eventAttire: "field dress. Whatever you don't mind losing.",
   rsvpBy:      "24 October",
 
   // How long Dr. Vane has been out of contact. Used in both the afterword
@@ -362,10 +362,6 @@ const CONFIG = {
   daysMissing: "four",
 
   // --- Where replies go ---
-  // Paste the Google Apps Script web-app URL here. It ends in /exec and looks
-  // like: "https://script.google.com/macros/s/AKfycb.....LONG...../exec"
-  // See README.md, step 2. Until this is filled in, replies go nowhere and the
-  // receipt shows a setup notice.
   formEndpoint:  "https://script.google.com/macros/s/AKfycbwF-__3Q5YDKLHJ6CC0L4uBW21jTmrN734tlmgbbJNLHh-t95iNpTKPLODayZAfXYBx/exec"
 };
 /* ════════════════════════════════════════════════════════════════
@@ -376,17 +372,16 @@ const ASSISTANT_NOTES = [
   {
     head: "Off the record",
     body: [
-      "I'm going to drop the letter-writing voice, because I don't have the time for it and you don't deserve it.",
-      "You're probably right. You're probably not a speleologist. I have stopped caring what people are.",
-      "I haven't heard from " + CONFIG.researcherName + " in " + CONFIG.daysMissing + " days. Normally it's one, two at the outside — the lamp comes back up the east passage and I get a page of notes and a list of things to bring down. It has been " + CONFIG.daysMissing + ". So whatever you actually do, whatever you're actually good at, I would like it here on the thirty-first."
-    ]
+      "Very well, I apologize for not having access to an up to date copy Who's Who, American Men and Women of Science here in the field.",
+      "Dr. Vale is confident whatever your field of expertise is, it is relevant to the expedition",
+      ]
   },
   {
     head: "Me again",
     body: [
-      "You're still reading. I'm choosing to take that as a good sign.",
-      "I went as far as the second chamber this morning and called. Nothing came back — which is not how that chamber works. It always gives you something back. I'm not equipped to go further on my own and I am not too proud to say so.",
-      "I don't need a speleologist. I need people. If you're a nurse, an electrician, good in a crisis, calm in the dark, or simply large — that is a skillset and I want it underground with me. The cavern put your name in my hand. I don't understand why. It has never done it idly."
+      "Well certainly even without a PhD you must have some relevant skills?",
+      "Dr. Vale has not been very responsive when I inquired about what fields of study would qualify for the expedition.",
+      "I went as far as the second chamber this morning and called. Nothing came back. I'm not equipped to go further on my own and I am not too proud to say so.
     ]
   },
   // ── Room for another hint here. Add an object in the same shape and it
@@ -395,9 +390,9 @@ const ASSISTANT_NOTES = [
   {
     head: "Please",
     body: [
-      "Last one. Then I'll leave you alone, I promise.",
-      "The cavern is calling you. I know how that reads written down. I know exactly how it reads, and I'm writing it anyway, because I have run out of better explanations and I am running out of days.",
-      "Come on the thirty-first. Bring the mica, bring whatever you've got, and bring it early. If it turns out you were never a speleologist — fine. You'll be the only one of us who was honest about it."
+      "I understand you believe yourself to be incompotent. But I really must insist you assist. I still haven't heard back and I worry that Dr. Vale might have attempted something on her own",
+      "All the research has suggested that Umbral Cavern is interested in cooperation, teamwork, and collaboration. If the professor attempted something on her own anything could have happened to her.",
+      "Come on the thirty-first. Bring the mica, bring whatever you've got, I'm sure you'll be good for something."
     ]
   }
 ];
