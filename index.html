@@ -7,7 +7,7 @@
 <meta name="description" content="Replies to the expedition, received by the assistant.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Special+Elite&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Special+Elite&display=swap" rel="stylesheet">
 <style>
   :root{
     --dark:   #0E1A1B;
@@ -270,6 +270,20 @@
     margin-bottom:1rem;
   }
 
+  .handnote{
+    font-family:"Caveat","Segoe Script",cursive;
+    font-size:1.55rem;
+    line-height:1.55;
+    color:#2E3A4C;
+  }
+  .handnote p{margin:0 0 1rem;}
+  .hand-salutation{margin-bottom:1.2rem !important;}
+  .hand-sign{
+    margin-top:1.6rem !important;
+    font-size:2rem;
+    font-weight:600;
+  }
+
   .setup-note{
     margin:2rem 0 0;
     padding:.9rem 1rem;
@@ -352,7 +366,7 @@ const CONFIG = {
   // like: "https://script.google.com/macros/s/AKfycb.....LONG...../exec"
   // See README.md, step 2. Until this is filled in, replies go nowhere and the
   // receipt shows a setup notice.
-  formEndpoint:  "https://script.google.com/macros/s/AKfycbwF-__3Q5YDKLHJ6CC0L4uBW21jTmrN734tlmgbbJNLHh-t95iNpTKPLODayZAfXYBx/exec"
+  formEndpoint:  ""
 };
 /* ════════════════════════════════════════════════════════════════
    The expedition's prose lives below. Edit freely.
@@ -751,86 +765,56 @@ async function send() {
   }
 }
 
-/* ---------- 6b. the second sheet (only after a yes) ---------- */
-function viewAfterword() {
-  const brought = state.answer === "yes";
-  render(`
-    <div class="assistant-note">
-      <p class="note-head">Sent back up the same evening</p>
-
-      <p>You said yes, so you are owed the rest of it.</p>
-
-      <p>${esc(CONFIG.researcherName)} is missing. ${esc(CONFIG.daysMissing.charAt(0).toUpperCase() + CONFIG.daysMissing.slice(1))} days now.
-      The lamp comes back up the east passage every day or two and I take down a page of notes
-      and a list of things to fetch. There has been nothing.</p>
-
-      <p>I left that out of the invitation and I know exactly how it looks. If I had put
-      <em>the principal investigator has not been seen in ${esc(CONFIG.daysMissing)} days</em> at the top of a
-      letter, not one of you would have come, and I need all of you to come.</p>
-
-      <p>I went as far as the second chamber and called. Nothing came back, which is not how
-      that chamber works.</p>
-
-      <p>So the thirty-first stands, and it stands harder than before. Come early. Bring the
-      mica — it is the only thing the cavern reliably answers to — and bring a light of your own,
-      because I am now planning for the possibility that we are going in to look for someone
-      rather than to study something.${brought ? " Tell your research partner as well. They should know what they have agreed to." : ""}</p>
-
-      <p>I'll be at the mouth from dusk. Don't be late. It does not stay open.</p>
-
-      <div class="signoff">
-        <p class="signature">${esc(CONFIG.assistantName)}</p>
-      </div>
-
-      <div class="actions">
-        <button class="btn-quiet" id="backtoreceipt">Back</button>
-      </div>
-    </div>
-  `, "addendum");
-  setFooter("");
-  document.getElementById("backtoreceipt").addEventListener("click", viewSealed);
-}
-
-/* ---------- 6. confirmation ---------- */
+/* ---------- 6. the reply that comes back up, in Bellweather's hand ---------- */
 function viewSealed() {
   try { localStorage.setItem("umbral-rsvp", JSON.stringify({ name: state.name, answer: state.answer, at: Date.now() })); } catch (e) {}
 
   const coming = isComing();
+
+  const body = coming ? `
+      <p>Thank you, I have you down for the expedition${state.answer === "yes" ? ", and your partner as well" : ""}.</p>
+
+      <p>Since the professor sent up the mica fragments I've lost contact. I'm worried
+      Umbral has lost patience with researchers.</p>
+
+      <p>On Halloween this year I plan to join the expedition with you. The previous teams
+      have worn research gear and street clothes. I plan to enter in a costume, and I suggest
+      you do the same.</p>` : `
+      <p>Thank you for writing back. I'll pass it down when I can.</p>
+
+      <p>I should tell you plainly: since the professor sent up the mica fragments I've lost
+      contact. I don't know when I'll next be able to pass anything to anyone.</p>
+
+      <p>If you change your mind before the thirty-first, write again.</p>`;
+
+  const denialLine = state.denials
+    ? `<p>And never mind what you said about not being a speleologist. I'm not sure any of us
+       knows quite what we are just now.</p>`
+    : "";
+
   render(`
-    ${letterhead()}
-    <div class="letter">
-      <p class="salutation">Received, Dr. ${esc(state.name)}.</p>
-      <p>${state.answer === "yes"
-        ? "You are on the roster, and so is your partner. Two of you. I will walk this down tonight."
-        : state.answer === "solo"
-        ? "You are on the roster. One, then — and I will take one gladly. I will walk this down tonight."
-        : "Understood. I will carry it down, though I expect " + esc(CONFIG.researcherName) + " will simply write to you again next year."}</p>
-      ${state.denials ? `<p>Your ${state.denials === 1 ? "objection is" : "objections are"} recorded as well. I have put ${state.denials === 1 ? "it" : "them"} in the file with the others.</p>` : ""}
-      <p>${coming
-        ? "Bring the mica on " + esc(CONFIG.eventDate) + ". The cavern will recognise that it called to you. Bring a light too — mine has never been enough for two."
-        : "If you change your mind before the thirty-first, write again. After that the mouth closes and I cannot reach you."}</p>
-
-      <p><span class="stamp">Carried down</span></p>
-
-      ${CONFIG.formEndpoint ? "" : `
-      <div class="setup-note">
-        <strong>Setup notice — visible only until you configure replies.</strong>
-        This reply was not sent anywhere. Add a <code>formEndpoint</code> at the top of
-        index.html and this box disappears for good.
-        <pre id="rawreply">${esc(replyText())}</pre>
-        <button id="copyreply">Copy this reply</button>
-      </div>`}
-
-      <div class="actions">
-        ${coming ? `<button class="btn" id="second">A second sheet came back up with it</button>` : ""}
-
-        <button class="btn-quiet" id="again">Send a different reply</button>
-      </div>
+    <div class="handnote">
+      <p class="hand-salutation">Dr. ${esc(state.name)} &mdash;</p>
+      ${body}
+      ${denialLine}
+      <p class="hand-sign">${esc(CONFIG.assistantName)}</p>
     </div>
-  `);
+
+    ${CONFIG.formEndpoint ? "" : `
+    <div class="setup-note">
+      <strong>Setup notice &mdash; visible only until you configure replies.</strong>
+      This reply was not sent anywhere. Add a <code>formEndpoint</code> at the top of
+      index.html and this box disappears for good.
+      <pre id="rawreply">${esc(replyText())}</pre>
+      <button id="copyreply">Copy this reply</button>
+    </div>`}
+
+    <div class="actions">
+      <button class="btn-quiet" id="again">Send a different reply</button>
+    </div>
+  `, "addendum");
+
   setFooter("");
-  const second = document.getElementById("second");
-  if (second) second.addEventListener("click", viewAfterword);
 
   const copyBtn = document.getElementById("copyreply");
   if (copyBtn) copyBtn.addEventListener("click", async () => {
@@ -846,6 +830,7 @@ function viewSealed() {
       copyBtn.textContent = "Selected — press Ctrl/Cmd+C";
     }
   });
+
   document.getElementById("again").addEventListener("click", () => {
     state.answer = null; state.partner = ""; state.note = "";
     state.denials = 0; state.conceded = false;
