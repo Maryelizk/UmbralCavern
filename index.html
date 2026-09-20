@@ -196,7 +196,8 @@
   .choice.denial{border-style:dashed;}
 
   .btn{
-    font:inherit;
+    font-family:"Special Elite","Courier New",Courier,monospace;
+    font-size:17px;
     cursor:pointer;
     display:inline-block;
     text-decoration:none;
@@ -216,7 +217,7 @@
     padding:.2rem 0;
     font-size:.9rem;
     cursor:pointer;
-    font-family:inherit;
+    font-family:"Special Elite","Courier New",Courier,monospace;
   }
   .btn-quiet:hover{background:transparent;color:var(--rust);border-bottom-color:var(--rust);}
   .actions{margin-top:1.9rem;display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;}
@@ -270,17 +271,24 @@
     margin-bottom:1rem;
   }
 
+  .assistant-note,
   .handnote{
     font-family:"Caveat","Segoe Script",cursive;
     font-size:1.55rem;
     line-height:1.55;
     color:#2E3A4C;
   }
+  .assistant-note p,
   .handnote p{margin:0 0 1rem;}
   .hand-salutation{margin-bottom:1.2rem !important;}
   .hand-sign{
     margin-top:1.6rem !important;
     font-size:2rem;
+    font-weight:600;
+  }
+  .assistant-note .note-head{
+    font-family:"Caveat","Segoe Script",cursive;
+    font-size:1.75rem;
     font-weight:600;
   }
 
