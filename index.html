@@ -387,7 +387,7 @@ const ASSISTANT_NOTES = [
   {
     head: "Please",
     body: [
-      "I understand you believe yourself to be incompotent. But I really must insist you assist. I still haven't heard back and I worry that Dr. Vale might have attempted something on her own",
+      "I understand you believe yourself to be incompotent. But I really must insist you assist. I still haven't heard back and I worry that Dr. Vane might have attempted something on her own",
       "All the research has suggested that Umbral Cavern is interested in cooperation, teamwork, and collaboration. If the professor attempted something on her own anything could have happened to her.",
       "Come on the thirty-first. Bring the mica, bring whatever you've got, I'm sure you'll be good for something."
     ]
@@ -475,7 +475,7 @@ function viewBriefing() {
     <div class="letter">
       <p class="salutation">Dr. ${esc(state.name)},</p>
 
-      <p>Then the letter found you, which means the mica was right about that much as well.
+      <p>Then the letter found you, which means the mica was right about you.
       I am ${esc(CONFIG.assistantName)}. I carry ${esc(CONFIG.researcherName)}'s correspondence
       up to the surface and I carry the replies back down. ${esc(CONFIG.researcherName)} does not come up.</p>
 
@@ -483,7 +483,7 @@ function viewBriefing() {
       to attempt the tests. None of the four came back out with an account of them.
       ${esc(CONFIG.researcherName)} holds that they were the wrong teams, not that the tests are
       unsurvivable — and holds that this year's assembly is different, on the grounds that
-      the cavern chose it rather than we did.</p>
+      the cavern chose the team.</p>
 
       <div class="particulars">
         <dl>
@@ -766,10 +766,10 @@ function viewSealed() {
   const body = coming ? `
       <p>Thank you, I have you down for the expedition${state.answer === "yes" ? ", and your partner as well" : ""}.</p>
 
-      <p>Since the professor sent up the mica fragments I've lost contact. I'm worried
-      Umbral has lost patience with researchers.</p>
+      <p>Since the professor sent up the mica fragments I've lost contact. 
+      On Halloween this year I plan to join the expedition with you.</p>
 
-      <p>On Halloween this year I plan to join the expedition with you. The previous teams
+      <p> I'm worried Umbral has lost patience with researchers.The previous teams
       have worn research gear and street clothes. I plan to enter in a costume, and I suggest
       you do the same.</p>` : `
       <p>Thank you for writing back. I'll pass it down when I can.</p>
