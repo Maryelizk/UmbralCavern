@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Umbral Cavern — correspondence</title>
+<meta name="description" content="Replies to the expedition, received by the assistant.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --dark:   #0E1A1B;
+    --paper:  #E9E2CF;
+    --paper-shade: #D6CDB4;
+    --ink:    #2B2621;
+    --ink-soft: #5E564B;
+    --lamp:   #F0BC4A;
+    --mica:   #7E8C88;
+    --rust:   #8E4529;
+    --sheet-w: 36rem;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+
+  body{
+    min-height:100vh;
+    background:var(--dark);
+    color:var(--paper);
+    font-family:"Special Elite","Courier New",Courier,monospace;
+    font-size:17px;
+    line-height:1.7;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:calc(clamp(1rem,5vw,4rem) + env(safe-area-inset-top,0px))
+            calc(1rem + env(safe-area-inset-right,0px))
+            calc(clamp(3rem,8vw,6rem) + env(safe-area-inset-bottom,0px))
+            calc(1rem + env(safe-area-inset-left,0px));
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  .lamp{
+    position:fixed;
+    top:-10vh; left:50%;
+    width:min(120vw,1100px); height:min(120vh,1100px);
+    transform:translateX(-50%) scale(.7);
+    background:radial-gradient(circle at 50% 35%,
+      rgba(240,188,74,.20) 0%,
+      rgba(240,188,74,.09) 32%,
+      rgba(126,140,136,.06) 52%,
+      rgba(14,26,27,0) 72%);
+    pointer-events:none;
+    opacity:0;
+    animation:lampup 1500ms cubic-bezier(.2,.7,.3,1) forwards;
+    z-index:0;
+  }
+  @keyframes lampup{to{opacity:1;transform:translateX(-50%) scale(1);}}
+
+  main{position:relative;z-index:1;width:100%;max-width:var(--sheet-w);}
+
+  .sheet{
+    background:
+      linear-gradient(175deg, rgba(255,255,255,.35) 0%, rgba(0,0,0,0) 40%),
+      linear-gradient(0deg, var(--paper-shade) 0%, var(--paper) 22%, var(--paper) 88%, var(--paper-shade) 100%);
+    color:var(--ink);
+    padding:clamp(1.6rem,5vw,3rem) clamp(1.4rem,5vw,3rem) clamp(2rem,6vw,3.2rem);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.45) inset,
+      0 18px 40px -12px rgba(0,0,0,.75),
+      0 0 60px -10px rgba(240,188,74,.14);
+    animation:newsheet 240ms ease-out;
+  }
+  @keyframes newsheet{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:none;}
+  }
+
+  .sheet.addendum{
+    background:
+      linear-gradient(0deg, var(--paper-shade) 0%, #E4DCC6 20%, #E4DCC6 90%, var(--paper-shade) 100%);
+    border-top:3px double var(--rust);
+  }
+
+  .letterhead{
+    text-align:center;
+    border-bottom:1px solid rgba(43,38,33,.35);
+    padding-bottom:1.1rem;
+    margin-bottom:1.8rem;
+  }
+  .expedition{
+    font-family:"IM Fell English SC","IM Fell English",Georgia,serif;
+    font-size:clamp(1.25rem,4.4vw,1.75rem);
+    line-height:1.25;
+    margin:0 0 .3rem;
+    font-weight:400;
+  }
+  .expedition-sub{
+    font-family:"IM Fell English",Georgia,serif;
+    font-style:italic;
+    font-size:.95rem;
+    color:var(--ink-soft);
+    margin:0;
+  }
+  .rule-mark{
+    display:block;
+    margin:.55rem auto 0;
+    width:2.2rem;
+    border-top:1px solid rgba(43,38,33,.4);
+  }
+
+  .letter p{margin:0 0 1.15rem;}
+  .letter p:last-of-type{margin-bottom:0;}
+  .salutation{margin-bottom:1.4rem;}
+
+  .particulars{
+    margin:1.5rem 0;
+    padding:1rem 0;
+    border-top:1px dashed rgba(43,38,33,.4);
+    border-bottom:1px dashed rgba(43,38,33,.4);
+  }
+  .particulars dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.35rem .9rem;}
+  .particulars dt{
+    font-family:"IM Fell English SC","IM Fell English",Georgia,serif;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .particulars dd{margin:0;}
+
+  .signoff{margin-top:1.8rem;}
+  .signature{
+    font-family:"IM Fell English",Georgia,serif;
+    font-style:italic;
+    font-size:1.35rem;
+    margin:.2rem 0 .1rem;
+  }
+  .signature-title{font-size:.85rem;color:var(--ink-soft);margin:0;}
+
+  .mica-line{
+    font-size:clamp(1.05rem,4vw,1.3rem);
+    margin:.5rem 0 2rem;
+    display:flex;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:.5rem;
+  }
+  .mica-line .to{color:var(--ink-soft);}
+  .blank{
+    flex:1 1 11rem;
+    min-width:9rem;
+    font:inherit;
+    color:var(--ink);
+    background:transparent;
+    border:0;
+    border-bottom:2px solid rgba(43,38,33,.55);
+    padding:.1rem .25rem .25rem;
+    border-radius:0;
+  }
+  .blank::placeholder{color:rgba(94,86,75,.55);}
+  .blank:focus{
+    outline:none;
+    border-bottom-color:var(--rust);
+    background:rgba(240,188,74,.16);
+  }
+
+  .hint{font-size:.85rem;color:var(--ink-soft);margin:-1.2rem 0 1.8rem;}
+  .error{color:var(--rust);font-size:.9rem;margin:.6rem 0 0;min-height:1.2em;}
+
+  .choices{list-style:none;margin:1.6rem 0 0;padding:0;}
+  .choices li{margin:0 0 .75rem;}
+  .choice{
+    display:flex;
+    gap:.85rem;
+    align-items:flex-start;
+    width:100%;
+    text-align:left;
+    font:inherit;
+    color:var(--ink);
+    background:rgba(255,255,255,.34);
+    border:1px solid rgba(43,38,33,.3);
+    padding:.85rem 1rem;
+    cursor:pointer;
+    transition:background 140ms ease, border-color 140ms ease, transform 140ms ease;
+  }
+  .choice:hover{background:rgba(240,188,74,.28);border-color:rgba(43,38,33,.6);}
+  .choice:active{transform:translateY(1px);}
+  .choice .tick{
+    flex:0 0 auto;
+    width:1.15rem;height:1.15rem;
+    margin-top:.28rem;
+    border:1px solid rgba(43,38,33,.6);
+    background:rgba(255,255,255,.5);
+  }
+  .choice.denial{border-style:dashed;}
+
+  .btn{
+    font:inherit;
+    cursor:pointer;
+    display:inline-block;
+    text-decoration:none;
+    background:var(--ink);
+    color:var(--paper);
+    border:1px solid var(--ink);
+    padding:.75rem 1.5rem;
+    transition:background 140ms ease,color 140ms ease;
+  }
+  .btn:hover{background:var(--rust);border-color:var(--rust);}
+  .btn[disabled]{opacity:.5;cursor:progress;}
+  .btn-quiet{
+    background:transparent;
+    color:var(--ink-soft);
+    border:0;
+    border-bottom:1px solid rgba(94,86,75,.5);
+    padding:.2rem 0;
+    font-size:.9rem;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .btn-quiet:hover{background:transparent;color:var(--rust);border-bottom-color:var(--rust);}
+  .actions{margin-top:1.9rem;display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;}
+
+  :focus-visible{outline:2px solid var(--rust);outline-offset:3px;}
+
+  .field{margin:1.3rem 0 0;}
+  .field label{display:block;font-size:.9rem;color:var(--ink-soft);margin-bottom:.3rem;}
+  .field input,.field textarea{
+    width:100%;
+    font:inherit;
+    color:var(--ink);
+    background:rgba(255,255,255,.45);
+    border:1px solid rgba(43,38,33,.35);
+    padding:.55rem .7rem;
+    border-radius:0;
+  }
+  .field textarea{min-height:5.5rem;resize:vertical;line-height:1.6;}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--rust);background:rgba(240,188,74,.16);}
+
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+
+  .reply-quote{
+    margin:1.5rem 0 0;
+    padding:1.1rem 1.2rem;
+    background:rgba(255,255,255,.4);
+    border-left:3px solid var(--rust);
+  }
+  .reply-quote p{margin:0 0 .8rem;}
+  .reply-quote p:last-child{margin:0;}
+
+  .stamp{
+    display:inline-block;
+    margin-top:1.6rem;
+    padding:.5rem 1rem;
+    border:2px solid var(--rust);
+    color:var(--rust);
+    font-family:"IM Fell English SC","IM Fell English",Georgia,serif;
+    font-size:1.05rem;
+    transform:rotate(-3deg);
+  }
+
+  .assistant-note{
+    font-family:"IM Fell English",Georgia,serif;
+    font-size:1.02rem;
+    line-height:1.75;
+  }
+  .assistant-note .note-head{
+    font-family:"IM Fell English SC","IM Fell English",Georgia,serif;
+    color:var(--rust);
+    margin-bottom:1rem;
+  }
+
+  .setup-note{
+    margin:2rem 0 0;
+    padding:.9rem 1rem;
+    border:1px dashed var(--rust);
+    background:rgba(142,69,41,.07);
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    font-size:.8rem;
+    line-height:1.55;
+    color:var(--ink-soft);
+  }
+  .setup-note strong{color:var(--rust);font-weight:600;}
+  .setup-note button{
+    font:inherit;
+    margin-top:.5rem;
+    padding:.35rem .7rem;
+    cursor:pointer;
+    background:transparent;
+    border:1px solid var(--rust);
+    color:var(--rust);
+  }
+  .setup-note pre{
+    white-space:pre-wrap;
+    margin:.6rem 0 0;
+    font-family:"Special Elite",monospace;
+    font-size:.85rem;
+    color:var(--ink);
+  }
+
+  footer{
+    position:relative;z-index:1;
+    margin-top:2rem;
+    font-family:"IM Fell English",Georgia,serif;
+    font-style:italic;
+    font-size:.85rem;
+    color:rgba(233,226,207,.4);
+    text-align:center;
+    max-width:var(--sheet-w);
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+    .lamp{opacity:1;transform:translateX(-50%) scale(1);}
+  }
+</style>
+</head>
+<body>
+<div class="lamp" aria-hidden="true"></div>
+
+<main>
+  <div id="sheet" aria-live="polite"></div>
+</main>
+
+<footer id="footer"></footer>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   EDIT THIS BLOCK — everything you need to change lives here.
+   ════════════════════════════════════════════════════════════════ */
+const CONFIG = {
+  // --- The people ---
+  cavernName:     "Umbral Cavern",
+  cavernSub:      "Tenth season. Independent, and unfunded.",
+  researcherName: "Dr. Vane",          // the one who wrote the paper letter
+  assistantName:  "Bellweather",       // the one who carries mail out — runs this page
+  assistantTitle: "Assistant to Dr. Vane",
+
+  // --- The party ---
+  eventDate:   "Saturday, 31 October",
+  eventTime:   "half past seven — the cavern will not open before or after",
+  eventPlace:  "[YOUR ADDRESS HERE]",
+  eventAttire: "field dress. Whatever you don't mind losing.",
+  rsvpBy:      "24 October",
+
+  // How long Dr. Vane has been out of contact. Used in both the afterword
+  // and the objection notes, so they always agree with each other.
+  daysMissing: "four",
+
+  // --- Where replies go ---
+  // Paste the Google Apps Script web-app URL here. It ends in /exec and looks
+  // like: "https://script.google.com/macros/s/AKfycb.....LONG...../exec"
+  // See README.md, step 2. Until this is filled in, replies go nowhere and the
+  // receipt shows a setup notice.
+  formEndpoint:  ""
+};
+/* ════════════════════════════════════════════════════════════════
+   The expedition's prose lives below. Edit freely.
+   ════════════════════════════════════════════════════════════════ */
+
+const ASSISTANT_NOTES = [
+  {
+    head: "Off the record",
+    body: [
+      "I'm going to drop the letter-writing voice, because I don't have the time for it and you don't deserve it.",
+      "You're probably right. You're probably not a speleologist. I have stopped caring what people are.",
+      "I haven't heard from " + CONFIG.researcherName + " in " + CONFIG.daysMissing + " days. Normally it's one, two at the outside — the lamp comes back up the east passage and I get a page of notes and a list of things to bring down. It has been " + CONFIG.daysMissing + ". So whatever you actually do, whatever you're actually good at, I would like it here on the thirty-first."
+    ]
+  },
+  {
+    head: "Me again",
+    body: [
+      "You're still reading. I'm choosing to take that as a good sign.",
+      "I went as far as the second chamber this morning and called. Nothing came back — which is not how that chamber works. It always gives you something back. I'm not equipped to go further on my own and I am not too proud to say so.",
+      "I don't need a speleologist. I need people. If you're a nurse, an electrician, good in a crisis, calm in the dark, or simply large — that is a skillset and I want it underground with me. The cavern put your name in my hand. I don't understand why. It has never done it idly."
+    ]
+  },
+  // ── Room for another hint here. Add an object in the same shape and it
+  //    slots into the sequence automatically — the branch counts the array,
+  //    so the concession line moves to the end on its own.
+  {
+    head: "Please",
+    body: [
+      "Last one. Then I'll leave you alone, I promise.",
+      "The cavern is calling you. I know how that reads written down. I know exactly how it reads, and I'm writing it anyway, because I have run out of better explanations and I am running out of days.",
+      "Come on the thirty-first. Bring the mica, bring whatever you've got, and bring it early. If it turns out you were never a speleologist — fine. You'll be the only one of us who was honest about it."
+    ]
+  }
+];
+
+/* Add ?debug=1 to the page URL while testing. Failures then stop the flow and
+   print the real reason on screen instead of showing a receipt. Guests who use
+   the plain URL never see any of this. */
+const DEBUG = new URLSearchParams(window.location.search).has("debug");
+
+/* The three answers a guest can send down. */
+function answerLine(key) {
+  if (key === "yes")  return "I will come, and I will bring my research partner.";
+  if (key === "solo") return "I will come. I will be coming alone.";
+  return "I will not be entering the cavern. Tell " + CONFIG.researcherName + " I wish the team well.";
+}
+const isComing  = () => state.answer !== "no";
+const headCount = () => state.answer === "yes" ? 2 : (state.answer === "solo" ? 1 : 0);
+
+const state = { name:"", answer:null, partner:"", note:"", denials:0, conceded:false };
+
+const sheet = document.getElementById("sheet");
+const footerEl = document.getElementById("footer");
+
+const esc = s => String(s).replace(/[&<>"']/g, c =>
+  ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+
+function letterhead() {
+  return `
+    <div class="letterhead">
+      <p class="expedition">${esc(CONFIG.cavernName)}</p>
+      <p class="expedition-sub">${esc(CONFIG.cavernSub)}</p>
+      <span class="rule-mark"></span>
+    </div>`;
+}
+
+function render(html, extraClass) {
+  sheet.innerHTML = `<div class="sheet ${extraClass || ""}">${html}</div>`;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  const first = sheet.querySelector("input, textarea, button");
+  if (first && first.tagName !== "BUTTON") first.focus();
+}
+
+function setFooter(text) { footerEl.textContent = text || ""; }
+
+/* ---------- 1. the mica ---------- */
+function viewMica() {
+  render(`
+    ${letterhead()}
+    <div class="letter">
+      <p class="hint" style="margin-top:0">A piece of mica fell onto the worktable with a name already in it. Tell me whether it is yours.</p>
+      <div class="mica-line">
+        <span class="to">The mica reads&nbsp;Dr.</span>
+        <input class="blank" id="nameInput" type="text" autocomplete="name"
+               placeholder="your name" aria-label="Your name" value="${esc(state.name)}">
+      </div>
+      <p class="error" id="err"></p>
+      <div class="actions">
+        <button class="btn" id="go">That is my name</button>
+      </div>
+    </div>
+  `);
+  setFooter("");
+
+  const input = document.getElementById("nameInput");
+  const err = document.getElementById("err");
+
+  const submit = () => {
+    const v = input.value.trim();
+    if (!v) { err.textContent = "The rock managed a name. So can you."; input.focus(); return; }
+    state.name = v;
+    viewBriefing();
+  };
+
+  document.getElementById("go").addEventListener("click", submit);
+  input.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
+  input.addEventListener("input", () => { err.textContent = ""; });
+}
+
+/* ---------- 2. the assistant's briefing ---------- */
+function viewBriefing() {
+  render(`
+    ${letterhead()}
+    <div class="letter">
+      <p class="salutation">Dr. ${esc(state.name)},</p>
+
+      <p>Then the letter found you, which means the mica was right about that much as well.
+      I am ${esc(CONFIG.assistantName)}. I carry ${esc(CONFIG.researcherName)}'s correspondence
+      up to the surface and I carry the replies back down. ${esc(CONFIG.researcherName)} does not come up.</p>
+
+      <p>Before you answer, you should know what you are agreeing to. Four teams have gone in
+      to attempt the tests. None of the four came back out with an account of them.
+      ${esc(CONFIG.researcherName)} holds that they were the wrong teams, not that the tests are
+      unsurvivable — and holds that this year's assembly is different, on the grounds that
+      the cavern chose it rather than we did.</p>
+
+      <div class="particulars">
+        <dl>
+          <dt>Opens</dt><dd>${esc(CONFIG.eventDate)}, ${esc(CONFIG.eventTime)}</dd>
+          <dt>Mouth</dt><dd>${esc(CONFIG.eventPlace)}</dd>
+          <dt>Dress</dt><dd>${esc(CONFIG.eventAttire)}</dd>
+          <dt>Bring</dt><dd>the mica, and a light of your own</dd>
+        </dl>
+      </div>
+
+      <p>The mica is not sentiment. It is how the cavern recognises that it called to you.
+      Whatever else you forget, do not forget that.</p>
+
+      <p>I need your answer by ${esc(CONFIG.rsvpBy)}, so that I have time to walk it down.</p>
+
+      <div class="signoff">
+        <p style="margin-bottom:.2rem">In haste, by lamp,</p>
+        <p class="signature">${esc(CONFIG.assistantName)}</p>
+        <p class="signature-title">${esc(CONFIG.assistantTitle)}</p>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="reply">Write your reply</button>
+        <button class="btn-quiet" id="back">That isn't my name</button>
+      </div>
+    </div>
+  `);
+  setFooter("");
+  document.getElementById("reply").addEventListener("click", viewChoices);
+  document.getElementById("back").addEventListener("click", viewMica);
+}
+
+/* ---------- 3. the three options ---------- */
+function viewChoices() {
+  const denialLabel = state.denials >= ASSISTANT_NOTES.length
+    ? `All right, ${CONFIG.assistantName}. I'll bring what I've got.`
+    : "There has been a mistake. I am not a speleologist.";
+
+  const denialItem = state.conceded ? "" : `
+    <li>
+      <button class="choice denial" data-pick="denial">
+        <span class="tick" aria-hidden="true"></span>
+        <span>${esc(denialLabel)}</span>
+      </button>
+    </li>`;
+
+  render(`
+    ${letterhead()}
+    <div class="letter">
+      <p class="salutation">Dr. ${esc(state.name)} replies:</p>
+      <p class="hint" style="margin-top:-.7rem">Choose the line I should carry down.</p>
+
+      <ul class="choices">
+        ${["yes","solo","no"].map(k => `
+        <li>
+          <button class="choice" data-pick="${k}">
+            <span class="tick" aria-hidden="true"></span>
+            <span>${esc(answerLine(k))}</span>
+          </button>
+        </li>`).join("")}
+        ${denialItem}
+      </ul>
+    </div>
+  `);
+  setFooter(state.denials ? `Objections raised: ${state.denials}` : "");
+
+  sheet.querySelectorAll("[data-pick]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const pick = btn.dataset.pick;
+      if (pick === "denial") {
+        if (state.denials >= ASSISTANT_NOTES.length) { state.conceded = true; viewChoices(); }
+        else { viewAssistantNote(); }
+        return;
+      }
+      state.answer = pick;
+      viewCompose();
+    });
+  });
+}
+
+/* ---------- 3b. the denial branch ---------- */
+function viewAssistantNote() {
+  const note = ASSISTANT_NOTES[state.denials];
+  state.denials += 1;
+
+  render(`
+    <div class="assistant-note">
+      <p class="note-head">${esc(note.head)}</p>
+      ${note.body.map(p => `<p>${esc(p)}</p>`).join("")}
+      <div class="actions">
+        <button class="btn" id="continue">Back to your reply</button>
+      </div>
+    </div>
+  `, "addendum");
+  setFooter(`Objections raised: ${state.denials}`);
+  document.getElementById("continue").addEventListener("click", viewChoices);
+}
+
+/* ---------- 4. compose the reply ---------- */
+function viewCompose() {
+  const partnerField = state.answer === "yes" ? `
+    <div class="field">
+      <label for="partner">Your research partner's name, for the roster</label>
+      <input id="partner" type="text" value="${esc(state.partner)}" placeholder="optional">
+    </div>` : "";
+
+  render(`
+    ${letterhead()}
+    <div class="letter">
+      <p class="salutation">What I will carry down:</p>
+
+      <div class="reply-quote">
+        <p>${esc(CONFIG.assistantName)} —</p>
+        <p>${esc(answerLine(state.answer))}</p>
+        ${state.denials ? `<p>Note also that I raised the matter of not being a speleologist ${state.denials === 1 ? "once" : state.denials + " times"}, and was told it did not matter.</p>` : ""}
+        <p>Dr. ${esc(state.name)}</p>
+      </div>
+
+      ${partnerField}
+
+      <div class="field">
+        <label for="note">${isComing() ? "Anything the expedition should know. Dietary requirements, relevant fears." : "A word for Dr. " + esc(CONFIG.researcherName.replace(/^Dr\.\s*/i,"")) + ", if you care to send one."}</label>
+        <textarea id="note" placeholder="optional">${esc(state.note)}</textarea>
+      </div>
+
+      <div class="hp" aria-hidden="true">
+        <label for="_gotcha">Leave this empty</label>
+        <input id="_gotcha" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <p class="error" id="err"></p>
+
+      <div class="actions">
+        <button class="btn" id="send">Send it down</button>
+        <button class="btn-quiet" id="change">Change my answer</button>
+      </div>
+    </div>
+  `);
+  setFooter(state.denials ? `Objections raised: ${state.denials}` : "");
+
+  document.getElementById("change").addEventListener("click", viewChoices);
+  document.getElementById("send").addEventListener("click", send);
+}
+
+/* ---------- 5. send ---------- */
+function replyText() {
+  const lines = [
+    CONFIG.assistantName + " —",
+    "",
+    answerLine(state.answer)
+  ];
+  if (state.answer === "yes" && state.partner) lines.push("My research partner is " + state.partner + ".");
+  if (state.denials) {
+    lines.push("Note also that I raised the matter of not being a speleologist " +
+      (state.denials === 1 ? "once" : state.denials + " times") + ", and was told it did not matter.");
+  }
+  if (state.note) lines.push("", state.note);
+  lines.push("", "Dr. " + state.name);
+  return lines.join("\n");
+}
+
+/* Posts through a hidden form + iframe. No CORS involved at all, so this
+   works even when the browser refuses to let us read the response. */
+function postViaIframe(payload) {
+  const sink = "umbral-sink";
+  let frame = document.getElementById(sink);
+  if (!frame) {
+    frame = document.createElement("iframe");
+    frame.id = sink;
+    frame.name = sink;
+    frame.style.display = "none";
+    document.body.appendChild(frame);
+  }
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = CONFIG.formEndpoint;
+  form.target = sink;
+  form.style.display = "none";
+  Object.keys(payload).forEach(k => {
+    const i = document.createElement("input");
+    i.type = "hidden";
+    i.name = k;
+    i.value = payload[k];
+    form.appendChild(i);
+  });
+  document.body.appendChild(form);
+  form.submit();
+  setTimeout(() => form.remove(), 2000);
+}
+
+async function send() {
+  const btn = document.getElementById("send");
+  const err = document.getElementById("err");
+  const partnerEl = document.getElementById("partner");
+  const noteEl = document.getElementById("note");
+  const hp = document.getElementById("_gotcha");
+
+  if (hp && hp.value) { viewSealed(); return; }
+
+  state.partner = partnerEl ? partnerEl.value.trim() : "";
+  state.note = noteEl ? noteEl.value.trim() : "";
+
+  const payload = {
+    name: state.name,
+    attending: isComing() ? "Yes" : "No",
+    heads: String(headCount()),
+    research_partner: state.answer === "yes" ? (state.partner || "unnamed") : "—",
+    objections: String(state.denials),
+    note: state.note || "—",
+    reply: replyText(),
+    _subject: "Umbral Cavern: Dr. " + state.name + " — " + (isComing() ? "joining" : "not joining")
+  };
+
+  if (!CONFIG.formEndpoint) {
+    // Nothing is configured to receive replies yet. Stay on the page and show
+    // the confirmation, with a setup notice that disappears once formEndpoint
+    // is filled in.
+    viewSealed();
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Carrying it down…";
+  err.textContent = "";
+
+  try {
+    const res = await fetch(CONFIG.formEndpoint, {
+      method: "POST",
+      // text/plain keeps this a "simple" request, so the browser skips the
+      // CORS preflight that Apps Script cannot answer.
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      redirect: "follow"
+    });
+    if (!res.ok) throw new Error("the script answered with status " + res.status);
+
+    let body = null;
+    try { body = JSON.parse(await res.text()); } catch (parseErr) {}
+    if (body && body.ok === false) throw new Error("the script rejected it: " + body.error);
+
+    if (DEBUG) {
+      btn.disabled = false;
+      btn.textContent = "Send it down";
+      err.style.color = "green";
+      err.textContent = "Debug: the script accepted it. Check the Sheet for a new row.";
+      return;
+    }
+    viewSealed();
+  } catch (e) {
+    console.warn("Umbral: direct post failed —", e);
+
+    if (DEBUG) {
+      btn.disabled = false;
+      btn.textContent = "Send it down";
+      err.textContent = "Debug: the reply did not reach the script. " + e.message +
+        " — open the /exec URL in a tab. If it 404s or asks you to sign in, the deployment is the problem, not this page.";
+      return;
+    }
+
+    // Not in debug: the browser may simply have refused to let us read the
+    // response. Resend the same data through a channel that needs no
+    // permission, so a working endpoint still gets the reply.
+    try {
+      postViaIframe(payload);
+      viewSealed();
+    } catch (e2) {
+      btn.disabled = false;
+      btn.textContent = "Send it down";
+      err.textContent = "The reply didn't get through. Check your connection and try again.";
+    }
+  }
+}
+
+/* ---------- 6b. the second sheet (only after a yes) ---------- */
+function viewAfterword() {
+  const brought = state.answer === "yes";
+  render(`
+    <div class="assistant-note">
+      <p class="note-head">Sent back up the same evening</p>
+
+      <p>You said yes, so you are owed the rest of it.</p>
+
+      <p>${esc(CONFIG.researcherName)} is missing. ${esc(CONFIG.daysMissing.charAt(0).toUpperCase() + CONFIG.daysMissing.slice(1))} days now.
+      The lamp comes back up the east passage every day or two and I take down a page of notes
+      and a list of things to fetch. There has been nothing.</p>
+
+      <p>I left that out of the invitation and I know exactly how it looks. If I had put
+      <em>the principal investigator has not been seen in ${esc(CONFIG.daysMissing)} days</em> at the top of a
+      letter, not one of you would have come, and I need all of you to come.</p>
+
+      <p>I went as far as the second chamber and called. Nothing came back, which is not how
+      that chamber works.</p>
+
+      <p>So the thirty-first stands, and it stands harder than before. Come early. Bring the
+      mica — it is the only thing the cavern reliably answers to — and bring a light of your own,
+      because I am now planning for the possibility that we are going in to look for someone
+      rather than to study something.${brought ? " Tell your research partner as well. They should know what they have agreed to." : ""}</p>
+
+      <p>I'll be at the mouth from dusk. Don't be late. It does not stay open.</p>
+
+      <div class="signoff">
+        <p class="signature">${esc(CONFIG.assistantName)}</p>
+      </div>
+
+      <div class="actions">
+        <button class="btn-quiet" id="backtoreceipt">Back</button>
+      </div>
+    </div>
+  `, "addendum");
+  setFooter("");
+  document.getElementById("backtoreceipt").addEventListener("click", viewSealed);
+}
+
+/* ---------- 6. confirmation ---------- */
+function viewSealed() {
+  try { localStorage.setItem("umbral-rsvp", JSON.stringify({ name: state.name, answer: state.answer, at: Date.now() })); } catch (e) {}
+
+  const coming = isComing();
+  render(`
+    ${letterhead()}
+    <div class="letter">
+      <p class="salutation">Received, Dr. ${esc(state.name)}.</p>
+      <p>${state.answer === "yes"
+        ? "You are on the roster, and so is your partner. Two of you. I will walk this down tonight."
+        : state.answer === "solo"
+        ? "You are on the roster. One, then — and I will take one gladly. I will walk this down tonight."
+        : "Understood. I will carry it down, though I expect " + esc(CONFIG.researcherName) + " will simply write to you again next year."}</p>
+      ${state.denials ? `<p>Your ${state.denials === 1 ? "objection is" : "objections are"} recorded as well. I have put ${state.denials === 1 ? "it" : "them"} in the file with the others.</p>` : ""}
+      <p>${coming
+        ? "Bring the mica on " + esc(CONFIG.eventDate) + ". The cavern will recognise that it called to you. Bring a light too — mine has never been enough for two."
+        : "If you change your mind before the thirty-first, write again. After that the mouth closes and I cannot reach you."}</p>
+
+      <p><span class="stamp">Carried down</span></p>
+
+      ${CONFIG.formEndpoint ? "" : `
+      <div class="setup-note">
+        <strong>Setup notice — visible only until you configure replies.</strong>
+        This reply was not sent anywhere. Add a <code>formEndpoint</code> at the top of
+        index.html and this box disappears for good.
+        <pre id="rawreply">${esc(replyText())}</pre>
+        <button id="copyreply">Copy this reply</button>
+      </div>`}
+
+      <div class="actions">
+        ${coming ? `<button class="btn" id="second">A second sheet came back up with it</button>` : ""}
+
+        <button class="btn-quiet" id="again">Send a different reply</button>
+      </div>
+    </div>
+  `);
+  setFooter("");
+  const second = document.getElementById("second");
+  if (second) second.addEventListener("click", viewAfterword);
+
+  const copyBtn = document.getElementById("copyreply");
+  if (copyBtn) copyBtn.addEventListener("click", async () => {
+    const text = document.getElementById("rawreply").textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      copyBtn.textContent = "Copied";
+    } catch (e) {
+      const r = document.createRange();
+      r.selectNodeContents(document.getElementById("rawreply"));
+      const sel = window.getSelection();
+      sel.removeAllRanges(); sel.addRange(r);
+      copyBtn.textContent = "Selected — press Ctrl/Cmd+C";
+    }
+  });
+  document.getElementById("again").addEventListener("click", () => {
+    state.answer = null; state.partner = ""; state.note = "";
+    state.denials = 0; state.conceded = false;
+    viewChoices();
+  });
+}
+
+viewMica();
+</script>
+</body>
+</html>
