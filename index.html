@@ -417,7 +417,32 @@ function answerLine(key) {
 const isComing  = () => state.answer !== "no";
 const headCount = () => state.answer === "yes" ? 2 : (state.answer === "solo" ? 1 : 0);
 
-const state = { name:"", answer:null, partner:"", note:"", denials:0, conceded:false };
+const state = { name:"", answer:null, partner:"", note:"", denials:0, conceded:false,
+                listStatus:"not checked", attempts:0 };
+
+/* What Bellweather says when a name isn't on the list. After the last of
+   these the guest is let through anyway, and the row is flagged for you. */
+const NOT_ON_LIST = [
+  "That name is not in the rock. Try it as it appears on your letter — a surname on its own is enough.",
+  "Still nothing. Check the spelling against your mica, or try your research partner's name instead."
+];
+
+/* Asks the script whether a name is on the guest list. The list never leaves
+   the spreadsheet — the page only ever learns yes or no about this one name.
+   Any failure returns "not checked", which lets the guest through: a locked
+   door on the night would be worse than an unverified row. */
+async function checkName(name) {
+  if (!CONFIG.formEndpoint) return "not checked";
+  try {
+    const res = await fetch(CONFIG.formEndpoint + "?check=" + encodeURIComponent(name));
+    if (!res.ok) throw new Error("status " + res.status);
+    const data = JSON.parse(await res.text());
+    return data.found ? "on list" : "not on list";
+  } catch (e) {
+    console.warn("Umbral: name check failed —", e);
+    return "not checked";
+  }
+}
 
 const sheet = document.getElementById("sheet");
 const footerEl = document.getElementById("footer");
@@ -465,10 +490,32 @@ function viewMica() {
   const input = document.getElementById("nameInput");
   const err = document.getElementById("err");
 
-  const submit = () => {
+  const go = document.getElementById("go");
+
+  const submit = async () => {
     const v = input.value.trim();
     if (!v) { err.textContent = "The rock managed a name. So can you."; input.focus(); return; }
+
     state.name = v;
+    go.disabled = true;
+    go.textContent = "Reading the rock…";
+    err.textContent = "";
+
+    state.listStatus = await checkName(v);
+
+    go.disabled = false;
+    go.textContent = "That is my name";
+
+    if (DEBUG) console.log("Umbral: name check —", state.listStatus);
+
+    if (state.listStatus === "not on list" && state.attempts < NOT_ON_LIST.length) {
+      err.textContent = NOT_ON_LIST[state.attempts];
+      state.attempts += 1;
+      input.focus();
+      input.select();
+      return;
+    }
+
     viewBriefing();
   };
 
@@ -581,8 +628,9 @@ function viewChoices() {
   });
 }
 
-/* Puts the guest's name wherever a note contains {name}. */
-const fill = s => String(s).replace(/\{name\}/g, state.name);
+/* Puts the guest's name wherever a note contains {name}. Case doesn't
+   matter — {name}, {Name} and {NAME} all work. */
+const fill = s => String(s).replace(/\{name\}/gi, state.name);
 
 /* ---------- 3b. the denial branch ---------- */
 function viewAssistantNote() {
@@ -711,6 +759,7 @@ async function send() {
     attending: isComing() ? "Yes" : "No",
     heads: String(headCount()),
     research_partner: state.answer === "yes" ? (state.partner || "unnamed") : "—",
+    on_list: state.listStatus,
     objections: String(state.denials),
     note: state.note || "—",
     reply: replyText(),
